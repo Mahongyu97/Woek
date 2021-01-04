@@ -1,0 +1,42 @@
+﻿using Common.Data;
+using GameServer.Core;
+using GameServer.Managers;
+using SkillBridge.Message;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GameServer.Entities
+{
+    /// <summary>
+    /// Character
+    /// 玩家角色类
+    /// </summary>
+    class Character : CharacterBase
+    {
+       
+        public TCharacter Data;
+
+        public ItemManager ItemManager;
+
+        public Character(CharacterType type,TCharacter cha):
+            base(new Core.Vector3Int(cha.MapPosX, cha.MapPosY, cha.MapPosZ),new Core.Vector3Int(cha.MapRotX, cha.MapRotY, 0))
+        {
+            this.Data = cha;
+            this.Info = new NCharacterInfo();
+            this.Info.Type = type;
+            this.Info.Id = cha.ID;
+            this.Info.Name = cha.Name;
+            this.Info.Level = 1;//cha.Level;
+            this.Info.Tid = cha.TID;
+            this.Info.Class = (CharacterClass)cha.Class;
+            this.Info.mapId = cha.MapID;
+            this.Info.Entity = this.EntityData;
+
+            this.ItemManager = new ItemManager(this);
+            this.ItemManager.GetNItemInfos();
+        }
+    }
+}
